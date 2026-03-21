@@ -1,7 +1,7 @@
 export type Section4HardStopInputs = {
     hsStrategyNotClear: boolean
     hsThesisNotWrittenClearly: boolean
-    hsRequiredRegimeStrategyNotPresent: boolean
+    hsRequiredStrategyRegimeNotPresent: boolean
     hsChopContinuationStrategy: boolean
 }
 
@@ -22,7 +22,7 @@ export function evaluateSection4HardStops(
   const hardStopResults = {
     hsStrategyNotClear: inputs.hsStrategyNotClear,
     hsThesisNotWrittenClearly: inputs.hsThesisNotWrittenClearly,
-    hsRequiredRegimeStrategyNotPresent: inputs.hsRequiredRegimeStrategyNotPresent,
+    hsRequiredStrategyRegimeNotPresent: inputs.hsRequiredStrategyRegimeNotPresent,
     hsChopContinuationStrategy: inputs.hsChopContinuationStrategy,
   }
 
@@ -36,7 +36,7 @@ export function evaluateSection4HardStops(
     blockingReasons.push('The trade thesis is NOT written clearly.')
   }
 
-  if (hardStopResults.hsRequiredRegimeStrategyNotPresent) {
+  if (hardStopResults.hsRequiredStrategyRegimeNotPresent) {
     blockingReasons.push('The required regime for the chosen strategy NOT present.')
   }
 
@@ -47,7 +47,7 @@ export function evaluateSection4HardStops(
   const anySection4HardStopTriggered = 
     hardStopResults.hsStrategyNotClear ||
     hardStopResults.hsThesisNotWrittenClearly ||
-    hardStopResults.hsRequiredRegimeStrategyNotPresent ||
+    hardStopResults.hsRequiredStrategyRegimeNotPresent ||
     hardStopResults.hsChopContinuationStrategy
 
   return {

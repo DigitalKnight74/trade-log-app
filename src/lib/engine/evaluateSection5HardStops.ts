@@ -2,7 +2,7 @@ export type Section5HardStopInputs = {
     hsStopNotStructurallyBased: boolean
     hsRRBelowStrategyMinimum: boolean
     hsEntryChasingPrice: boolean
-    hsPositionSizeViolateRiskTierAllowance: boolean
+    hsPositionSizeViolatesRiskTierAllowance: boolean
 }
 
 export type Section5HardStopResult = {
@@ -10,7 +10,7 @@ export type Section5HardStopResult = {
       hsStopNotStructurallyBased: boolean
       hsRRBelowStrategyMinimum: boolean
       hsEntryChasingPrice: boolean
-      hsPositionSizeViolateRiskTierAllowance: boolean
+      hsPositionSizeViolatesRiskTierAllowance: boolean
     }
     anySection5HardStopTriggered: boolean
     blockingReasons: string[]
@@ -23,7 +23,7 @@ export function evaluateSection5HardStops(
     hsStopNotStructurallyBased: inputs.hsStopNotStructurallyBased,
     hsRRBelowStrategyMinimum: inputs.hsRRBelowStrategyMinimum,
     hsEntryChasingPrice: inputs.hsEntryChasingPrice,
-    hsPositionSizeViolateRiskTierAllowance: inputs.hsPositionSizeViolateRiskTierAllowance,
+    hsPositionSizeViolatesRiskTierAllowance: inputs.hsPositionSizeViolatesRiskTierAllowance,
   }
 
   const blockingReasons: string[] = []
@@ -40,7 +40,7 @@ export function evaluateSection5HardStops(
     blockingReasons.push('The Entry IS chasing the Price.')
   }
 
-  if (hardStopResults.hsPositionSizeViolateRiskTierAllowance) {
+  if (hardStopResults.hsPositionSizeViolatesRiskTierAllowance) {
     blockingReasons.push('Position Size VIOLATES the Risk Tier Allowance.')
   }
 
@@ -48,7 +48,7 @@ export function evaluateSection5HardStops(
     hardStopResults.hsStopNotStructurallyBased ||
     hardStopResults.hsRRBelowStrategyMinimum ||
     hardStopResults.hsEntryChasingPrice ||
-    hardStopResults.hsPositionSizeViolateRiskTierAllowance
+    hardStopResults.hsPositionSizeViolatesRiskTierAllowance
   
   return {
     hardStopResults,

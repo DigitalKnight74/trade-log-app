@@ -1,49 +1,55 @@
-import { evaluateHardStops } from '@/lib/engine/evaluateHardStops'
+import { buildDecisionSnapshot } from '@/lib/engine/buildDecisionSnapshot'
 
 export default function Home() {
-  const result = evaluateHardStops({
-    section1: {
-      hsDailyLossHit: false,
-      hsWeeklyLossHit: false,
-      hsRiskViolation: true,
-      hsEmotionalTrade: false,
+  const snapshot = buildDecisionSnapshot({
+    normalizedPayload: {
+      tradeDirection: 'long',
+      riskTier: 'normal',
+      asset: 'BTCUSD',
+      macroClarityScore: 9,
+      midStructureScore: 8.7,
+      strategyFitScore: 9.1,
+      executionScore: 8.8,
     },
-    section2: {
-      macroClarityScore: 8.5,
-      hsNoLiquidityDraw: false,
+    weightedScores: {
+      macroWeightedScore: 2.7,
+      midWeightedScore: 2.61,
+      strategyWeightedScore: 2.275,
+      executionWeightedScore: 1.32,
+      finalCompositeScore: 8.905,
     },
-    section3: {
-      hsNoStructureConfirmation: true,
+    hardStopEvaluation: {
+      hardStopResults: {
+        hsDailyLossHit: false,
+        hsWeeklyLossHit: false,
+        hsRiskViolation: false,
+        hsEmotionalTrade: false,
+      },
+      anyHardStopTriggered: false,
+      blockingReasons: [],
+      warnings: [],
     },
-    section4: {
-      hsStrategyNotDefined: false,
-      hsThesisMissing: false,
-      hsInvalidRegime: false,
+    thresholdUsed: 8.75,
+    decision: {
+      finalDecision: 'GO',
+      decisionBasis: 'score_pass',
     },
-    section5: {
-      hsInvalidStop: false,
-      plannedRR: 1.4,
-      minimumRR: 1.6,
-      hsChasingEntry: false,
-      hsPositionSizeInvalid: false,
+    decisionReasonSummary: {
+      decisionPath: [
+        'Validation passed',
+        'No hard stops triggered',
+        'Final composite score 8.905 met threshold 8.75',
+        'Decision = GO',
+      ],
+      blockingReasons: [],
+      warnings: [],
     },
   })
 
   return (
     <main style={{ padding: '24px' }}>
-      <h1>evaluateHardStops Test</h1>
-
-      <h2>Any Hard Stop Triggered</h2>
-      <pre>{JSON.stringify(result.anyHardStopTriggered, null, 2)}</pre>
-
-      <h2>Hard Stop Results</h2>
-      <pre>{JSON.stringify(result.hardStopResults, null, 2)}</pre>
-
-      <h2>Blocking Reasons</h2>
-      <pre>{JSON.stringify(result.blockingReasons, null, 2)}</pre>
-
-      <h2>Warnings</h2>
-      <pre>{JSON.stringify(result.warnings, null, 2)}</pre>
+      <h1>buildDecisionSnapshot Test</h1>
+      <pre>{JSON.stringify(snapshot, null, 2)}</pre>
     </main>
   )
 }

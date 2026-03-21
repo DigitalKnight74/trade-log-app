@@ -2,7 +2,7 @@ export type SectionScores = {
     macroScore: number
     midStructureScore: number
     strategyFitScore: number
-    executionScore: number
+    executionQualityScore: number
 }
 
 export type WeightedScoreResult = {
@@ -23,7 +23,7 @@ export function calculateWeightedScores(
     const macroWeightedScore = roundToThree(scores.macroScore * 0.3)
     const midWeightedScore = roundToThree(scores.midStructureScore * 0.3)
     const strategyWeightedScore = roundToThree(scores.strategyFitScore * 0.25)
-    const executionWeightedScore = roundToThree(scores.executionScore * 0.15)
+    const executionWeightedScore = roundToThree(scores.executionQualityScore * 0.15)
 
     const finalCompositeScore = roundToThree(
         macroWeightedScore +
