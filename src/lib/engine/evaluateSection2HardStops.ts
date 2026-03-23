@@ -8,7 +8,7 @@ export type Section2HardStopResult = {
         hsNoLiquidityDrawIdentified: boolean
         hsMacroClarityLt7: boolean
     }
-    anySection2HardStopTriggered: boolean
+    anySection2HardStopsTriggered: boolean
     blockingReasons: string[]
 }
 
@@ -30,13 +30,13 @@ export function evaluateSection2HardStops(
     blockingReasons.push('Macro Clarity Score is < 7')
   }
 
-  const anySection2HardStopTriggered =
+  const anySection2HardStopsTriggered =
     hardStopResults.hsNoLiquidityDrawIdentified ||
     hardStopResults.hsMacroClarityLt7
 
   return {
     hardStopResults,
-    anySection2HardStopTriggered,
+    anySection2HardStopsTriggered,
     blockingReasons,
   }
 }

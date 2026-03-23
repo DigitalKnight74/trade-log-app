@@ -12,7 +12,7 @@ export type Section4HardStopResult = {
     hsRequiredRegimeStrategyNotPresent: boolean
     hsChopContinuationStrategy: boolean
   }
-  anySection4HardStopTriggered: boolean
+  anySection4HardStopsTriggered: boolean
   blockingReasons: string[]
 }
 
@@ -22,7 +22,7 @@ export function evaluateSection4HardStops(
   const hardStopResults = {
     hsStrategyNotClear: inputs.hsStrategyNotClear,
     hsThesisNotWrittenClearly: inputs.hsThesisNotWrittenClearly,
-    hsRequiredStrategyRegimeNotPresent: inputs.hsRequiredStrategyRegimeNotPresent,
+    hsRequiredRegimeStrategyNotPresent: inputs.hsRequiredStrategyRegimeNotPresent,
     hsChopContinuationStrategy: inputs.hsChopContinuationStrategy,
   }
 
@@ -36,7 +36,7 @@ export function evaluateSection4HardStops(
     blockingReasons.push('The trade thesis is NOT written clearly.')
   }
 
-  if (hardStopResults.hsRequiredStrategyRegimeNotPresent) {
+  if (hardStopResults.hsRequiredRegimeStrategyNotPresent) {
     blockingReasons.push('The required regime for the chosen strategy NOT present.')
   }
 
@@ -44,15 +44,15 @@ export function evaluateSection4HardStops(
     blockingReasons.push('A continuation strategy selected WITH the regime in CHOP.')
   }
 
-  const anySection4HardStopTriggered = 
+  const anySection4HardStopsTriggered = 
     hardStopResults.hsStrategyNotClear ||
     hardStopResults.hsThesisNotWrittenClearly ||
-    hardStopResults.hsRequiredStrategyRegimeNotPresent ||
+    hardStopResults.hsRequiredRegimeStrategyNotPresent ||
     hardStopResults.hsChopContinuationStrategy
 
   return {
     hardStopResults,
-    anySection4HardStopTriggered,
+    anySection4HardStopsTriggered,
     blockingReasons,
   }
 }

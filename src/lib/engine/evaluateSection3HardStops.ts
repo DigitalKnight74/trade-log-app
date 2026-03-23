@@ -8,7 +8,7 @@ export type Section3HardStopResults = {
         hsMicroNotAlignedMacro: boolean
         hsNoStructuralConfirmation: boolean
     }
-    anySection3HardStopTriggered: boolean
+    anySection3HardStopsTriggered: boolean
     blockingReasons: string[]
 }
 
@@ -30,13 +30,13 @@ export function evaluateSection3HardStops(
         blockingReasons.push('There is NO Structural Confirmation.')
     }
 
-    const anySection3HardStopTriggered = 
+    const anySection3HardStopsTriggered = 
       hardStopResults.hsMicroNotAlignedMacro ||
       hardStopResults.hsNoStructuralConfirmation
     
     return {
       hardStopResults,
-      anySection3HardStopTriggered,
+      anySection3HardStopsTriggered,
       blockingReasons,
     }
 }

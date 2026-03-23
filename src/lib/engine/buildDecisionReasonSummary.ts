@@ -5,15 +5,15 @@ export type BuildDecisionReasonSummaryInputs = {
     decisionBasis: DecisionBasis
     finalCompositeScore: number
     thresholdUsed: number
-    anyHardStopsTriggered: boolean
+    anyHardStopTriggered: boolean
     blockingReasons: string[]
-    warnings?: string[]
+    warnings: string[]
 }
 
 export type DecisionReasonSummary = {
     decisionPath: string[]
     blockingReasons: string[]
-    warnings?: string[]
+    warnings: string[]
 }
 
 function formatScore(value: number): string {
