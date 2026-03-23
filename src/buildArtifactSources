@@ -1,0 +1,15 @@
+type VariableRow = {
+  name: string;
+  dataType: string;
+  domainArea: string;
+  enumValues?: string[];
+  payloadTypes?: string[];
+  purpose: string;
+  status: string;
+};
+
+type FunctionRow = {
+  name: string;
+  purpose: string;
+  status: string;
+};

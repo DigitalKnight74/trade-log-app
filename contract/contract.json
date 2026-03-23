@@ -1,0 +1,1310 @@
+{
+  "generatedAt": "2026-03-23T19:32:22.323Z",
+  "sourceFile": "Naming_Convention.xlsx",
+  "sheets": {
+    "functions": "Function_Names",
+    "variables": "Variable_Names"
+  },
+  "summary": {
+    "functionCount": 17,
+    "variableCount": 83,
+    "enumBackedVariableCount": 20,
+    "payloadTypeCount": 5
+  },
+  "functions": [
+    {
+      "name": "resolveThreshold()",
+      "purpose": "Provides the threshold for the Final Composite score based on the Risk Tier for trade",
+      "status": "Approved"
+    },
+    {
+      "name": "calculateWeightedScores()",
+      "purpose": "Calcualtes the Weighted Scores for each section based on the responses in that given section of the checklist and then aggregates all the weighted scores into a final composite score",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateSection1HardStops()",
+      "purpose": "Test each of the hard stops in this section and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateSection2HardStops()",
+      "purpose": "Test each of the hard stops in this section and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateSection3HardStops()",
+      "purpose": "Test each of the hard stops in this section and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateSection4HardStops()",
+      "purpose": "Test each of the hard stops in this section and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateSection5HardStops()",
+      "purpose": "Test each of the hard stops in this section and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "evaluateHardStops()",
+      "purpose": "Test each of the hard stopsacross the entire checklist and returns either True/False and the warning statement associated with any hard stop responses.",
+      "status": "Approved"
+    },
+    {
+      "name": "determineDecision()",
+      "purpose": "Takes anyHardStopTriggered and finalCompositeScore and returns a final GO / NO-GO decision; based on any hard stops triggered and if the final composite score is >= the threshold set by the Risk Tier",
+      "status": "Approved"
+    },
+    {
+      "name": "buildDecisionReasonSummary()",
+      "purpose": "Generates a concise, human-readable explanation of the decision outcome, including key drivers, failed conditions, and contributing factors.",
+      "status": "Approved"
+    },
+    {
+      "name": "buildDecisionSnapshot()",
+      "purpose": "Constructs a structured snapshot of the final evaluation state, including scores, thresholds, hard stop status, and decision metadata.",
+      "status": "Approved"
+    },
+    {
+      "name": "validatePrecheckPayload()",
+      "purpose": "Verifies that all required fields are present, correctly typed, and within acceptable ranges before further processing.",
+      "status": "Approved"
+    },
+    {
+      "name": "normalizedPrecheckPayload()",
+      "purpose": "Transforms incoming data into canonical field names, formats, and data types to ensure consistency across the system.",
+      "status": "Approved"
+    },
+    {
+      "name": "loadStrategyRule()",
+      "purpose": "Retrieves the rule configuration and constraints associated with the selected trading strategy.",
+      "status": "Approved"
+    },
+    {
+      "name": "persistTradePrecheckRun()",
+      "purpose": "Saves the finalized precheck input, evaluation results, and decision outcome to the database for tracking and analysis.",
+      "status": "Approved"
+    },
+    {
+      "name": "submitPrecheckRun()",
+      "purpose": "Orchestrates the full precheck workflow from input submission through validation, scoring, evaluation, decision, and persistence.",
+      "status": "Approved"
+    },
+    {
+      "name": "formatPrecheckDecisionResult()",
+      "purpose": "Formats the final decision output into a standardized structure suitable for UI display or API response.",
+      "status": "Approved"
+    }
+  ],
+  "variables": [
+    {
+      "name": "todayDateTime",
+      "dataType": "datetime",
+      "rawDataType": "datetimeStamp",
+      "domainArea": "Section 1",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Records Trade Idea Creation Date",
+      "status": "Approved"
+    },
+    {
+      "name": "session",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 1",
+      "enumValues": [
+        "TOKYO_SESSION",
+        "LONDON_SESSION",
+        "NEW_YORK_SESSION"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "TOKYO SESSION', 'LONDON SESSION', 'NEW YORK SESSION'",
+      "status": "Approved"
+    },
+    {
+      "name": "asset",
+      "dataType": "string",
+      "rawDataType": "string",
+      "domainArea": "Section 1",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Records the Asset ticker symbol",
+      "status": "Approved"
+    },
+    {
+      "name": "riskTier",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 1",
+      "enumValues": [
+        "NORMAL",
+        "REDUCED",
+        "PRESERVATION"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "NORMAL', 'REDUCED', 'PRESERVATION'",
+      "status": "Approved"
+    },
+    {
+      "name": "acctBalance",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 1",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "saves current account balance for the trade",
+      "status": "Approved"
+    },
+    {
+      "name": "plannedRisk",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 1",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "planned risk percentage for given trade",
+      "status": "Approved"
+    },
+    {
+      "name": "notes",
+      "dataType": "string",
+      "rawDataType": "string",
+      "domainArea": "Section 1",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "Records any market/trade relevant news or situations",
+      "status": "Approved"
+    },
+    {
+      "name": "macroBias",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 2",
+      "enumValues": [
+        "BULLISH",
+        "BEARISH",
+        "RANGE"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'BULLISH', 'BEARISH', 'RANGE'",
+      "status": "Approved"
+    },
+    {
+      "name": "macroCurrentPhase",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 2",
+      "enumValues": [
+        "ACCUMULATION",
+        "EXPANSION",
+        "DISTRIBUTION"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'ACCUMULATION', 'EXPANSION', 'DISTRIBUTION'",
+      "status": "Approved"
+    },
+    {
+      "name": "keyHTFResistanceFrom",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "lowest price point of the resistance zone",
+      "status": "Approved"
+    },
+    {
+      "name": "keyHTFResistanceTo",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "highest price point of the resistance zone",
+      "status": "Approved"
+    },
+    {
+      "name": "keyHTFSupportFrom",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "lowest price point of the resistance zone",
+      "status": "Approved"
+    },
+    {
+      "name": "keyHTFSupportTo",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "highest price point of the resistance zone",
+      "status": "Approved"
+    },
+    {
+      "name": "macroLiquidityDraw",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "price of different macro Liquidity Draw",
+      "status": "Approved"
+    },
+    {
+      "name": "liquidityTargetDirection",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 2",
+      "enumValues": [
+        "ABOVE",
+        "BELOW",
+        "RANGE_BOUNDARY"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'ABOVE', 'BELOW', 'RANGE_BOUNDARY'",
+      "status": "Approved"
+    },
+    {
+      "name": "bullishMacroBiasInvalidationLevel",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "price point of the point where the market will shift to a Bullish Bias if reached",
+      "status": "Approved"
+    },
+    {
+      "name": "bearishMacroBiasInvalidationLevel",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "price point of the point where the market will shift to a Bearish Bias if reached",
+      "status": "Approved"
+    },
+    {
+      "name": "macroClarityScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 2",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Total calculated score based on the responses in the Macro Section",
+      "status": "Approved"
+    },
+    {
+      "name": "midStructureSequence",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "HH_HL",
+        "LL_LH",
+        "RANGE"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'HH_HL', 'LL_LH', 'RANGE'",
+      "status": "Approved"
+    },
+    {
+      "name": "microMacroAlignment",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Section 3",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "returns True/False if the Micro Structure is aligned with the Macro Bias",
+      "status": "Approved"
+    },
+    {
+      "name": "recentStructuralEvent",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "BOS",
+        "CHOCH",
+        "NONE"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'BOS', 'CHOCH', 'NONE'",
+      "status": "Approved"
+    },
+    {
+      "name": "liquiditySweepObserved",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Section 3",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "returns True/False if a Liquidity Sweep is observed",
+      "status": "Approved"
+    },
+    {
+      "name": "midStructureRegime",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "CLEAN_TREND",
+        "WEAK_TREND",
+        "CHOP"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'CLEAN_TREND', 'WEAK_TREND', 'CHOP'",
+      "status": "Approved"
+    },
+    {
+      "name": "midStructureRsiState",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "TRENDING",
+        "DIVERGENCE",
+        "NEUTRAL"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'TRENDING', 'DIVERGENCE', 'NEUTRAL'",
+      "status": "Approved"
+    },
+    {
+      "name": "midStructureEmaState",
+      "dataType": "enum",
+      "rawDataType": "5-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "STACKED",
+        "STACKED_EXPANDING",
+        "STACKED_COMPRESSING",
+        "COMPRESSED",
+        "FLAT"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'STACKED', 'STACKED_EXPANDING', 'STACKED_COMPRESSING', 'COMPRESSED', 'FLAT'",
+      "status": "Approved"
+    },
+    {
+      "name": "mid1mADXStateStrength",
+      "dataType": "enum",
+      "rawDataType": "2-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "STRONG",
+        "WEAK"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'STRONG (>20)', 'WEAK (<20)'",
+      "status": "Approved"
+    },
+    {
+      "name": "mid1mADXStateMomentum",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "RISING",
+        "FALLING",
+        "FLATTENING"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "RISING', 'FALLING', 'FLATTENING'",
+      "status": "Approved"
+    },
+    {
+      "name": "mid5mADXStateStrength",
+      "dataType": "enum",
+      "rawDataType": "2-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "STRONG",
+        "WEAK"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'STRONG (>20)', 'WEAK (<20)'",
+      "status": "Approved"
+    },
+    {
+      "name": "mid5mADXStateMomentum",
+      "dataType": "enum",
+      "rawDataType": "3-choice selection",
+      "domainArea": "Section 3",
+      "enumValues": [
+        "RISING",
+        "FALLING",
+        "FLATTENING"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "RISING', 'FALLING', 'FLATTENING'",
+      "status": "Approved"
+    },
+    {
+      "name": "midStructureScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 3",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Total calculated score based on the responses in the Mid-Structure Section",
+      "status": "Approved"
+    },
+    {
+      "name": "primaryStrategy",
+      "dataType": "enum",
+      "rawDataType": "7-choice selection",
+      "domainArea": "Section 4",
+      "enumValues": [
+        "TC1",
+        "TC2",
+        "TCL",
+        "CH1",
+        "SMOG",
+        "G2",
+        "35A"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'TC2', 'TC1', 'TCL', 'CH1', 'SMOG', 'G2', '35A'",
+      "status": "Approved"
+    },
+    {
+      "name": "oneSentenceThesis",
+      "dataType": "string",
+      "rawDataType": "string",
+      "domainArea": "Section 4",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "A single sentence that is well thought out explaining the thesis behind the trade idea",
+      "status": "Approved"
+    },
+    {
+      "name": "strategyFitScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 4",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Total calculated score based on the responses in the Strategy Fit Section",
+      "status": "Approved"
+    },
+    {
+      "name": "entryType",
+      "dataType": "enum",
+      "rawDataType": "2-choice selection",
+      "domainArea": "Section 5",
+      "enumValues": [
+        "MARKET",
+        "LIMIT"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'MARKET', 'LIMIT'",
+      "status": "Approved"
+    },
+    {
+      "name": "tradeDirection",
+      "dataType": "enum",
+      "rawDataType": "2-choice selection",
+      "domainArea": "Section 5",
+      "enumValues": [
+        "LONG",
+        "SHORT"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "LONG', 'SHORT'",
+      "status": "Approved"
+    },
+    {
+      "name": "entryPrice",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Trade idea entry price",
+      "status": "Approved"
+    },
+    {
+      "name": "stopPrice",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "trade idea stop loss price",
+      "status": "Approved"
+    },
+    {
+      "name": "targetPrice",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "trade idea target price",
+      "status": "Approved"
+    },
+    {
+      "name": "plannedRR",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "calculates the planned R:R based on the entry, stop, target price, and position size.",
+      "status": "Approved"
+    },
+    {
+      "name": "positionSize",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "calculated position size based on planned risk and entry and stop loss price",
+      "status": "Approved"
+    },
+    {
+      "name": "primaryStopBasis",
+      "dataType": "1-choice selection",
+      "rawDataType": "1-choice selection",
+      "domainArea": "Section 5",
+      "enumValues": [
+        "STRUCTURAL_INVALIDATION"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'STRUCTURAL_INVALIDATION'",
+      "status": "Approved"
+    },
+    {
+      "name": "secondaryExitLogic",
+      "dataType": "enum",
+      "rawDataType": "4-choice selection",
+      "domainArea": "Section 5",
+      "enumValues": [
+        "LIQUIDITY_BASED_TRAIL",
+        "VOLATILITY_BUFFER",
+        "TIME_BASED_EXIT",
+        "CONFIRMATION_FAILURE"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload"
+      ],
+      "purpose": "'LIQUIDITY_BASED_TRAIL', 'VOLATILITY_BUFFER', 'TIME_BASED_EXIT', 'CONFIRMATION_FAILURE'",
+      "status": "Approved"
+    },
+    {
+      "name": "tradeManagementPlan",
+      "dataType": "enum",
+      "rawDataType": "2-choice selection",
+      "domainArea": "Section 5",
+      "enumValues": [
+        "PARTIAL_PROFIT_AT_R",
+        "MOVE_STOP_TO_BREAKEVEN_AT_R"
+      ],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "provides which choice of trading management plan this trade idea will take",
+      "status": "Approved"
+    },
+    {
+      "name": "partialAtR",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "at what point do you take partial profit based on a given positive R level",
+      "status": "Approved"
+    },
+    {
+      "name": "moveStopToBreakEvenAtR",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "at what point do you move stop loss to the break even point based on a given positive R level",
+      "status": "Approved"
+    },
+    {
+      "name": "executionQualityScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section 5",
+      "enumValues": [],
+      "payloadTypes": [
+        "PrecheckPayload",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Total calculated score based on the responses in the Execution Quality Section",
+      "status": "Approved"
+    },
+    {
+      "name": "macroWeightedScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "WeightedScoreResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Calculated weighted score for Section 2",
+      "status": "Approved"
+    },
+    {
+      "name": "midWeightedScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "WeightedScoreResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Calculated weighted score for Section 3",
+      "status": "Approved"
+    },
+    {
+      "name": "strategyWeightedScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "WeightedScoreResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Calculated weighted score for Section 4",
+      "status": "Approved"
+    },
+    {
+      "name": "executionWeightedScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "WeightedScoreResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Calculated weighted score for Section 5",
+      "status": "Approved"
+    },
+    {
+      "name": "finalCompositeScore",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "WeightedScoreResult",
+        "DecisionResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Calculated final composite score based on the aggregate of the 4each Section Weighted Scores",
+      "status": "Approved"
+    },
+    {
+      "name": "blockingReasons",
+      "dataType": "string",
+      "rawDataType": "string",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "DecisionResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "provides a reason the trade is being blocked",
+      "status": "Approved"
+    },
+    {
+      "name": "section1Result",
+      "dataType": "object",
+      "rawDataType": "object",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "result of function evaluateSection1HardStops",
+      "status": "Approved"
+    },
+    {
+      "name": "section2Result",
+      "dataType": "object",
+      "rawDataType": "object",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "result of function evaluateSection2HardStops",
+      "status": "Approved"
+    },
+    {
+      "name": "section3Result",
+      "dataType": "object",
+      "rawDataType": "object",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "result of function evaluateSection3HardStops",
+      "status": "Approved"
+    },
+    {
+      "name": "section4Result",
+      "dataType": "object",
+      "rawDataType": "object",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "result of function evaluateSection4HardStops",
+      "status": "Approved"
+    },
+    {
+      "name": "section5Result",
+      "dataType": "object",
+      "rawDataType": "object",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "result of function evaluateSection5HardStops",
+      "status": "Approved"
+    },
+    {
+      "name": "hardStopResults",
+      "dataType": "string, boolean",
+      "rawDataType": "string, boolean",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult"
+      ],
+      "purpose": "Collects if there are Hard Stops from each section",
+      "status": "Approved"
+    },
+    {
+      "name": "thresholdUsed",
+      "dataType": "number",
+      "rawDataType": "number",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "DecisionResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "final score minimum based on Risk Tier",
+      "status": "Approved"
+    },
+    {
+      "name": "warnings",
+      "dataType": "string",
+      "rawDataType": "string",
+      "domainArea": "Section6/Calculated/\r\nSystem",
+      "enumValues": [],
+      "payloadTypes": [
+        "DecisionResult",
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "Warning displayed based on which hard stop is triggered.",
+      "status": "Approved"
+    },
+    {
+      "name": "hsDailyLossHit",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if you have hit the daily loss limit based on your risk plan",
+      "status": "Approved"
+    },
+    {
+      "name": "hsWeeklyLossHit",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if you have hit the weekly loss limit based on your risk plan",
+      "status": "Approved"
+    },
+    {
+      "name": "hsRiskViolation",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if trade planned risk is more than the limit set based on the Risk Tier",
+      "status": "Approved"
+    },
+    {
+      "name": "hsEmotionalTrade",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if this trade is motivated by Revenge, Emotions, or a Sense of Urgency/FOMO",
+      "status": "Approved"
+    },
+    {
+      "name": "anySection1HardStopTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "returns True/False if a hard Stop was triggered in Section 1",
+      "status": "Approved"
+    },
+    {
+      "name": "hsNoLiquidityDrawIdentified",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if you have identified a clear liquidity Draw",
+      "status": "Approved"
+    },
+    {
+      "name": "hsMacroClarityLt7",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the analysis of the Macro Context (4h+) section score is greater than 7",
+      "status": "Approved"
+    },
+    {
+      "name": "anySection2HardStopTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "returns True/False if a hard Stop was triggered in Section 2",
+      "status": "Approved"
+    },
+    {
+      "name": "hsMicroNotAlignedMacro",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the Mid-Structure is aligned with the Macro Structure",
+      "status": "Approved"
+    },
+    {
+      "name": "hsNoStructuralConfirmation",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if there has been some form of Structural Confirmation of which direction the market is headed…with BOS or CHoCH",
+      "status": "Approved"
+    },
+    {
+      "name": "anySection3HardStopTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "returns True/False if a hard Stop was triggered in Section 3",
+      "status": "Approved"
+    },
+    {
+      "name": "hsStrategyNotClear",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the primary trade strategy is clearly declared in section 4",
+      "status": "Approved"
+    },
+    {
+      "name": "hsThesisNotWrittenClearly",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the Thesis is written clearly",
+      "status": "Approved"
+    },
+    {
+      "name": "hsRequiredStrategyRegimeNotPresent",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the market is showing the required regime for the chosen strategy is present",
+      "status": "Approved"
+    },
+    {
+      "name": "hsChopContinuationStrategy",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the market is in a CHOPPY regime with a Continuation Strategy selected",
+      "status": "Approved"
+    },
+    {
+      "name": "anySection4HardStopTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "returns True/False if a hard Stop was triggered in Section 4",
+      "status": "Approved"
+    },
+    {
+      "name": "hsStopNotStructurallyBased",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the trade idea stop price is based on structural invalidation or not",
+      "status": "Approved"
+    },
+    {
+      "name": "hsRRBelowStrategyMinimum",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the R:R is below the chosen strategy's minimum",
+      "status": "Approved"
+    },
+    {
+      "name": "hsEntryChasingPrice",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the trade idea is trying to chase the price instead of being set and held",
+      "status": "Approved"
+    },
+    {
+      "name": "hsPositionSizeViolatesRiskTierAllowance",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the trade idea position size violates the risk tier allowance",
+      "status": "Approved"
+    },
+    {
+      "name": "anySection5HardStopTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [],
+      "purpose": "returns True/False if a hard Stop was triggered in Section 5",
+      "status": "Approved"
+    },
+    {
+      "name": "hsTradeNotLogged",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "PersistedPrecheckRun"
+      ],
+      "purpose": "returns True/False if the trade idea has been logged into the database",
+      "status": "Approved"
+    },
+    {
+      "name": "anyHardStopsTriggered",
+      "dataType": "boolean",
+      "rawDataType": "boolean",
+      "domainArea": "Hard Stop",
+      "enumValues": [],
+      "payloadTypes": [
+        "HardStopEvaluationResult",
+        "DecisionResult"
+      ],
+      "purpose": "returns True/False if there are any hard stops triggered throughout the different sections.",
+      "status": "Approved"
+    }
+  ],
+  "payloadTypes": {
+    "PersistedPrecheckRun": [
+      "todayDateTime",
+      "session",
+      "asset",
+      "riskTier",
+      "macroClarityScore",
+      "midStructureScore",
+      "oneSentenceThesis",
+      "strategyFitScore",
+      "tradeDirection",
+      "entryPrice",
+      "stopPrice",
+      "targetPrice",
+      "plannedRR",
+      "positionSize",
+      "tradeManagementPlan",
+      "partialAtR",
+      "moveStopToBreakEvenAtR",
+      "executionQualityScore",
+      "macroWeightedScore",
+      "midWeightedScore",
+      "strategyWeightedScore",
+      "executionWeightedScore",
+      "finalCompositeScore",
+      "blockingReasons",
+      "thresholdUsed",
+      "warnings",
+      "hsDailyLossHit",
+      "hsWeeklyLossHit",
+      "hsRiskViolation",
+      "hsEmotionalTrade",
+      "hsNoLiquidityDrawIdentified",
+      "hsMacroClarityLt7",
+      "hsMicroNotAlignedMacro",
+      "hsNoStructuralConfirmation",
+      "hsStrategyNotClear",
+      "hsThesisNotWrittenClearly",
+      "hsRequiredStrategyRegimeNotPresent",
+      "hsChopContinuationStrategy",
+      "hsStopNotStructurallyBased",
+      "hsRRBelowStrategyMinimum",
+      "hsEntryChasingPrice",
+      "hsPositionSizeViolatesRiskTierAllowance",
+      "hsTradeNotLogged"
+    ],
+    "PrecheckPayload": [
+      "session",
+      "asset",
+      "riskTier",
+      "acctBalance",
+      "plannedRisk",
+      "macroBias",
+      "macroCurrentPhase",
+      "keyHTFResistanceFrom",
+      "keyHTFResistanceTo",
+      "keyHTFSupportFrom",
+      "keyHTFSupportTo",
+      "macroLiquidityDraw",
+      "liquidityTargetDirection",
+      "bullishMacroBiasInvalidationLevel",
+      "bearishMacroBiasInvalidationLevel",
+      "macroClarityScore",
+      "midStructureSequence",
+      "microMacroAlignment",
+      "recentStructuralEvent",
+      "liquiditySweepObserved",
+      "midStructureRegime",
+      "midStructureRsiState",
+      "midStructureEmaState",
+      "mid1mADXStateStrength",
+      "mid1mADXStateMomentum",
+      "mid5mADXStateStrength",
+      "mid5mADXStateMomentum",
+      "midStructureScore",
+      "primaryStrategy",
+      "oneSentenceThesis",
+      "strategyFitScore",
+      "entryType",
+      "tradeDirection",
+      "entryPrice",
+      "stopPrice",
+      "targetPrice",
+      "plannedRR",
+      "positionSize",
+      "primaryStopBasis",
+      "secondaryExitLogic",
+      "tradeManagementPlan",
+      "partialAtR",
+      "moveStopToBreakEvenAtR",
+      "executionQualityScore"
+    ],
+    "WeightedScoreResult": [
+      "macroWeightedScore",
+      "midWeightedScore",
+      "strategyWeightedScore",
+      "executionWeightedScore",
+      "finalCompositeScore"
+    ],
+    "DecisionResult": [
+      "finalCompositeScore",
+      "blockingReasons",
+      "thresholdUsed",
+      "warnings",
+      "anyHardStopsTriggered"
+    ],
+    "HardStopEvaluationResult": [
+      "section1Result",
+      "section2Result",
+      "section3Result",
+      "section4Result",
+      "section5Result",
+      "hardStopResults",
+      "anyHardStopsTriggered"
+    ]
+  }
+}

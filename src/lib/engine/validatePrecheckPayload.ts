@@ -73,24 +73,24 @@ export function validatePrecheckPayload(
   if (!isNonEmptyString(payload.primaryStrategy)) {
     errors.push({
       field: 'primaryStrategy',
-      message: 'Primary strategy is required.',
+      message: 'Primary Strategy is required.',
     })
   } else if (!allowedStrategies.includes(payload.primaryStrategy as (typeof allowedStrategies)[number])) {
     errors.push({
       field: 'primaryStrategy',
-      message: 'Primary strategey is invalid.',
+      message: 'Primary Strategey is invalid.',
     })
   }
 
   if (!isNonEmptyString(payload.riskTier)) {
     errors.push({
         field: 'riskTier',
-        message: 'Risk tier is required.',
+        message: 'Risk Tier is required.',
     })
   } else if (!allowedRiskTier.includes(payload.riskTier as RiskTier)) {
     errors.push({
         field: 'riskTier',
-        message: 'Risktier is invlaid.',
+        message: 'Risk Tier is invlaid.',
     })
   }
 
@@ -98,28 +98,28 @@ export function validatePrecheckPayload(
   if (!isScoreInRange(payload.macroScore)) {
     errors.push({
       field: 'macroScore',
-      message: 'Macro score must be a number between 0 and 10.',
+      message: 'Macro Score must be a number between 0 and 10.',
     })
   }
 
   if (!isScoreInRange(payload.midStructureScore)) {
     errors.push({
         field: 'midStructureScore',
-        message: 'Mid-Structure score must be a number between 0 and 10.',
+        message: 'Mid-Structure Score must be a number between 0 and 10.',
     })
   }
 
   if (!isScoreInRange(payload.strategyFitScore)) {
     errors.push({
       field: 'strategyFitScore',
-      message: ' Strategy fit score must be a number between 0 and 10.'
+      message: ' Strategy Fit Score must be a number between 0 and 10.'
     })
   }
 
   if (!isScoreInRange(payload.executionQualityScore)) {
     errors.push({
       field: 'executionQualityScore',
-      message: 'Execuation quality score muct be a numnber between 0 and 10.'
+      message: 'Execuation Quality Score must be a numnber between 0 and 10.'
     })
   }
 
@@ -160,7 +160,7 @@ export function validatePrecheckPayload(
   if (!isValidNumber(payload.positionSize)) {
     errors.push({
         field: 'positionSize',
-        message: 'Positoin size must be a valid number.',
+        message: 'Position size must be a valid number.',
     })
   } else if (payload.positionSize <= 0) {
     errors.push({
@@ -183,7 +183,7 @@ export function validatePrecheckPayload(
   ) {
     errors.push({
       field: 'moveStopToBreakEvenAtR',
-      message: 'Move Stop to break-even at R is required for this trade management plan',  
+      message: 'Move Stop to Break-Even at R is required for this trade management plan',  
       })
   }
 
